@@ -151,6 +151,44 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.weather-info {
+    text-align: center;
+}
+
+.weather-info h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.temperature {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-text);
+    margin: 0.5rem 0;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+}
+
+.additional-info {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    color: var(--color-text);
+    opacity: 0.8;
+}
+
+.error {
+    color: #dc3545;
+    text-align: center;
+    padding: 1rem;
+}
+
 /* Footer */
 footer {
     background-color: var(--color-primary);

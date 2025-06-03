@@ -1,8 +1,15 @@
 // ShoreSquad Main Application JavaScript
 
+const WEATHER_API_KEY = 'b8d5de9d2efd6b8c316607ef808a13dc';
+const CLEANUP_LOCATION = {
+    lat: 1.381497,
+    lng: 103.955574
+};
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
+    fetchWeatherData();
 });
 
 function initializeApp() {
@@ -48,10 +55,36 @@ async function initializeMap() {
     console.log('Map initialization pending...');
 }
 
-// Placeholder for weather data fetching
+// Fetch and display weather data for cleanup location
 async function fetchWeatherData() {
-    // TODO: Implement weather API integration
-    console.log('Weather data fetching pending...');
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${CLEANUP_LOCATION.lat}&lon=${CLEANUP_LOCATION.lng}&appid=${WEATHER_API_KEY}&units=metric`);
+        const data = await response.json();
+        
+        if (data.cod === 200) {
+            const weatherWidget = document.getElementById('weather-widget');
+            const weatherHTML = `
+                <div class="weather-info">
+                    <h3>Pasir Ris Beach Weather</h3>
+                    <div class="weather-details">
+                        <p class="temperature">${Math.round(data.main.temp)}°C</p>
+                        <p class="description">${data.weather[0].description}</p>
+                        <div class="additional-info">
+                            <p>Humidity: ${data.main.humidity}%</p>
+                            <p>Wind: ${data.wind.speed} m/s</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            weatherWidget.innerHTML = weatherHTML;
+        } else {
+            throw new Error('Weather data not available');
+        }
+    } catch (error) {
+        handleApiError(error);
+        const weatherWidget = document.getElementById('weather-widget');
+        weatherWidget.innerHTML = '<p class="error">Weather information temporarily unavailable</p>';
+    }
 }
 
 // Utility function for handling API errors
